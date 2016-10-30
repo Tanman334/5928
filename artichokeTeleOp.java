@@ -95,11 +95,6 @@ public class artichokeTeleOp extends OpMode
         //  rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         // telemetry.addData("Status", "Initialized");
 
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
@@ -109,11 +104,6 @@ public class artichokeTeleOp extends OpMode
     }
     @Override
     public void init_loop() {
-
-        frontLeft.setPower(.1);
-        frontRight.setPower(.1);
-        backLeft.setPower(.1);
-        backRight.setPower(.1);
     }
     /*
      * Code to run ONCE when the driver hits PLAY

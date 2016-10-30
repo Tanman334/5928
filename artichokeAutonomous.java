@@ -40,7 +40,7 @@
     import com.qualcomm.robotcore.hardware.DcMotorSimple;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
-    /**
+    /*
      * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
      * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
      * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
@@ -63,10 +63,75 @@
         // DcMotor leftMotor = null;
         // DcMotor rightMotor = null;
 
-        DcMotor frontLeft = null;
-        DcMotor frontRight = null;
-        DcMotor backLeft = null;
-        DcMotor backRight = null;
+        public DcMotor frontLeft = null;
+        public DcMotor frontRight = null;
+        public DcMotor backLeft = null;
+        public DcMotor backRight = null;
+        public DcMotor whole = null;
+
+
+        public void go(int direction) {
+            if (direction == 1) {
+                frontLeft.setDirection(DcMotor.Direction.REVERSE);
+                backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+                frontRight.setDirection(DcMotor.Direction.FORWARD);
+                backRight.setDirection(DcMotor.Direction.FORWARD);
+            }
+            else if(direction == 2){
+                frontLeft.setDirection(DcMotor.Direction.REVERSE);
+
+                backRight.setDirection(DcMotor.Direction.FORWARD);
+            }
+            else if(direction == 3){
+                frontLeft.setDirection(DcMotor.Direction.REVERSE);
+                backLeft.setDirection(DcMotor.Direction.FORWARD);
+
+                frontRight.setDirection(DcMotor.Direction.REVERSE);
+                backRight.setDirection(DcMotor.Direction.FORWARD);
+            }
+            else if(direction == 4){
+                backLeft.setDirection(DcMotor.Direction.FORWARD);
+
+                frontRight.setDirection(DcMotor.Direction.REVERSE);
+            }
+            else if(direction == 5){
+                frontLeft.setDirection(DcMotor.Direction.FORWARD);
+                backLeft.setDirection(DcMotor.Direction.FORWARD);
+
+                frontRight.setDirection(DcMotor.Direction.REVERSE);
+                backRight.setDirection(DcMotor.Direction.REVERSE);
+            }
+            else if(direction == 6){
+                frontLeft.setDirection(DcMotor.Direction.FORWARD);
+
+                backRight.setDirection(DcMotor.Direction.REVERSE);
+            }
+            else if(direction == 7){
+                frontLeft.setDirection(DcMotor.Direction.FORWARD);
+                backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+                frontRight.setDirection(DcMotor.Direction.FORWARD);
+                backRight.setDirection(DcMotor.Direction.REVERSE);
+            }
+            else if(direction == 8){
+                backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+                frontRight.setDirection(DcMotor.Direction.FORWARD);
+            }
+            else{
+                telemetry.addData("Error", "Invalid Direction");
+                telemetry.update();
+            }
+        }
+
+        public void speed(double fLSpeed, double bLSpeed, double fRSpeed,double bRSpeed){
+            frontLeft.setPower(fLSpeed);
+            backLeft.setPower(bLSpeed);
+
+            frontRight.setPower(fRSpeed);
+            backRight.setPower(bRSpeed);
+        }
 
         @Override
         public void runOpMode() {
@@ -102,12 +167,15 @@
             //Right = logic Left = opposite
 
             while(timer <= 2) {
-                backLeft.setDirection(DcMotor.Direction.REVERSE);
+                /*backLeft.setDirection(DcMotor.Direction.REVERSE);
                 frontRight.setDirection(DcMotor.Direction.FORWARD);
 
                 backLeft.setPower(1);
 
-                frontRight.setPower(1);
+                frontRight.setPower(1);*/
+
+                go(8);
+                speed(0,1,0,1);
 
                 timer = time.seconds();
             }
@@ -116,18 +184,21 @@
             timer = time.seconds();
 
             while(timer <= 2) {
-                frontRight.setPower(1);
+                /*frontRight.setPower(1);
                 backRight.setPower(1);
 
                 frontLeft.setPower(1);
                 backLeft.setPower(1);
-
-                frontRight.setDirection(DcMotor.Direction.FORWARD);
-                backRight.setDirection(DcMotor.Direction.FORWARD);
 
                 frontLeft.setDirection(DcMotor.Direction.REVERSE);
                 backLeft.setDirection(DcMotor.Direction.REVERSE);
 
+                frontRight.setDirection(DcMotor.Direction.FORWARD);
+                backRight.setDirection(DcMotor.Direction.FORWARD);*/
+
+                go(1);
+                speed(1,1,1,1);
+
                 timer = time.seconds();
             }
 
@@ -135,17 +206,20 @@
             timer = time.seconds();
 
             while(timer <= 2){
-                frontLeft.setDirection(DcMotor.Direction.REVERSE);
+                /*frontLeft.setDirection(DcMotor.Direction.REVERSE);
                 backLeft.setDirection(DcMotor.Direction.FORWARD);
 
                 frontRight.setDirection(DcMotor.Direction.REVERSE);
                 backRight.setDirection(DcMotor.Direction.FORWARD);
 
-                frontRight.setPower(1);
-                backRight.setPower(1);
-
                 frontLeft.setPower(1);
                 backLeft.setPower(1);
+
+                frontRight.setPower(1);
+                backRight.setPower(1);*/
+
+                go(3);
+                speed(1,1,1,1);
 
                 timer = time.seconds();
             }
@@ -153,11 +227,14 @@
             timer = time.seconds();
 
             while(timer <= 2){
-                frontLeft.setDirection(DcMotor.Direction.FORWARD);
+                /*frontLeft.setDirection(DcMotor.Direction.FORWARD);
                 backLeft.setDirection(DcMotor.Direction.FORWARD);
 
                 frontRight.setDirection(DcMotor.Direction.REVERSE);
-                backRight.setDirection(DcMotor.Direction.REVERSE);
+                backRight.setDirection(DcMotor.Direction.REVERSE);*/
+
+                go(5);
+                speed(1,1,1,1);
 
                 timer = time.seconds();
             }
