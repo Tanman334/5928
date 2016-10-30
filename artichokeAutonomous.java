@@ -72,6 +72,7 @@
 
         public void go(int direction) {
             if (direction == 1) {
+                // forward
                 frontLeft.setDirection(DcMotor.Direction.REVERSE);
                 backLeft.setDirection(DcMotor.Direction.REVERSE);
 
@@ -79,11 +80,13 @@
                 backRight.setDirection(DcMotor.Direction.FORWARD);
             }
             else if(direction == 2){
+                // forward and right
                 frontLeft.setDirection(DcMotor.Direction.REVERSE);
 
                 backRight.setDirection(DcMotor.Direction.FORWARD);
             }
             else if(direction == 3){
+                // right
                 frontLeft.setDirection(DcMotor.Direction.REVERSE);
                 backLeft.setDirection(DcMotor.Direction.FORWARD);
 
@@ -91,11 +94,13 @@
                 backRight.setDirection(DcMotor.Direction.FORWARD);
             }
             else if(direction == 4){
+                // back and right
                 backLeft.setDirection(DcMotor.Direction.FORWARD);
 
                 frontRight.setDirection(DcMotor.Direction.REVERSE);
             }
             else if(direction == 5){
+                // back
                 frontLeft.setDirection(DcMotor.Direction.FORWARD);
                 backLeft.setDirection(DcMotor.Direction.FORWARD);
 
@@ -103,11 +108,13 @@
                 backRight.setDirection(DcMotor.Direction.REVERSE);
             }
             else if(direction == 6){
+                // back and left
                 frontLeft.setDirection(DcMotor.Direction.FORWARD);
 
                 backRight.setDirection(DcMotor.Direction.REVERSE);
             }
             else if(direction == 7){
+                // left
                 frontLeft.setDirection(DcMotor.Direction.FORWARD);
                 backLeft.setDirection(DcMotor.Direction.REVERSE);
 
@@ -115,11 +122,13 @@
                 backRight.setDirection(DcMotor.Direction.REVERSE);
             }
             else if(direction == 8){
+                // forward and left
                 backLeft.setDirection(DcMotor.Direction.REVERSE);
 
                 frontRight.setDirection(DcMotor.Direction.FORWARD);
             }
             else{
+                // In case Tanner forgets how to count
                 telemetry.addData("Error", "Invalid Direction");
                 telemetry.update();
             }
