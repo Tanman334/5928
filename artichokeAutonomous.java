@@ -67,7 +67,6 @@
         public DcMotor frontRight = null;
         public DcMotor backLeft = null;
         public DcMotor backRight = null;
-        public DcMotor whole = null;
 
 
         public void go(int direction) {
