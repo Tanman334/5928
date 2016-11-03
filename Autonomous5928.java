@@ -131,6 +131,20 @@
 
                 frontRight.setDirection(DcMotor.Direction.FORWARD);
             }
+            else if(direction == 9){
+                frontLeft.setDirection(DcMotor.Direction.REVERSE);
+                backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+                frontRight.setDirection(DcMotor.Direction.REVERSE);
+                backRight.setDirection(DcMotor.Direction.REVERSE);
+            }
+            else if(direction == 10){
+                frontLeft.setDirection(DcMotor.Direction.FORWARD);
+                backLeft.setDirection(DcMotor.Direction.FORWARD);
+
+                frontRight.setDirection(DcMotor.Direction.FORWARD);
+                backRight.setDirection(DcMotor.Direction.FORWARD);
+            }
             else{
                 // In case Tanner forgets how to count
                 telemetry.addData("Error", "Invalid Direction");
