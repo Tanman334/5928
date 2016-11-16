@@ -69,6 +69,9 @@
             private DcMotor backLeft;
             private DcMotor backRight;
 
+            private DcMotor frontLift = null;
+            private DcMotor backLift = null;
+
             private void go(int direction) {
                 if (direction == 1) {
                     // forward
@@ -174,7 +177,8 @@
                 backLeft  = hardwareMap.dcMotor.get("backLeft");
                 backRight  = hardwareMap.dcMotor.get("backRight");
 
-
+                frontLift = hardwareMap.dcMotor.get("frontLift");
+                backLift = hardwareMap.dcMotor.get("backLift");
 
                 // eg: Set the drive motor directions:
                 // Reverse the motor that runs backwards when connected directly to the battery
@@ -221,44 +225,78 @@
 
                 if(rightX >= .5){
                     go(9);
-                    speed(1,1,1,1);
-                }
-                else if(rightX <= -0.5){
-                    go(10);
-                    speed(1,1,1,1);
+                    speed(rightY,rightY,rightY,rightY);
                 }
 
-                if(leftY >= .5){
-                    if(leftX >= .5) {
+                else if(rightX <= -0.5){
+                    go(10);
+                    speed(rightY,rightY,rightY,rightY);
+                }
+
+                else if(leftX <= -.5 && (leftY < .5 && leftY > -.5)){
+                    go(7);
+                    speed(rightY,rightY,rightY,rightY);
+                }
+
+                else if(leftX >= .5 && (leftY < .5 && leftY > -.5)){
+                    go(3);
+                    speed(rightY,rightY,rightY,rightY);
+                }
+
+                else if(leftY >= .5){
+                    if(leftX > .5) {
                         go(2);
                         speed(rightY,0,0,rightY);
                     }
-                    else if(leftX <= -.5){
+
+                    else if(leftX < -.5){
                         go(8);
                         speed(0,rightY,rightY,0);
                     }
+
+                    else if(leftX >= -.5 && leftX <= .5){
+                        go(1);
+                        speed(rightY,rightY,rightY,rightY);
+                    }
                 }
+
                 else if(leftY <= -.5){
-                    if(leftX >= .5){
+                    if(leftX > .5){
                         go(4);
                         speed(0,rightY,0,rightY);
                     }
-                    else if(leftX <= -.5){
+
+                    else if(leftX < -.5){
                         go(6);
                         speed(rightY,0,0,rightY);
                     }
+
                     else if(leftX >= -.5 && leftX <= .5){
                         go(5);
                         speed(rightY,rightY,rightY,rightY);
                     }
                 }
-                else if(leftX <= -.5 && (leftY < .5 && leftY > -.5)){
-                    go(7);
-                    speed(rightY,rightY,rightY,rightY);
+                else{
+                    speed(0,0,0,0);
                 }
-                else if(leftX >= .5 && (leftY < .5 && leftY > -.5)){
-                    go(3);
-                    speed(rightY,rightY,rightY,rightY);
+
+                if(gamepad1.dpad_up){
+                    frontLift.setDirection(DcMotor.Direction.FORWARD);
+                    backLift.setDirection(DcMotor.Direction.REVERSE);
+
+                    frontLift.setPower(1);
+                    backLift.setPower(1);
+                }
+                else if(gamepad1.dpad_down){
+                    frontLift.setDirection(DcMotor.Direction.REVERSE);
+                    backLift.setDirection(DcMotor.Direction.FORWARD);
+
+                    frontLift.setPower(1);
+                    backLift.setPower(1);
+                }
+                else{
+                    frontLift.setPower(0);
+                    backLift.setPower(0);
                 }
 
             }
