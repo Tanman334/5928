@@ -202,7 +202,7 @@
                 frontLift.setPower(1);
                 backLift.setPower(1);
             }
-
+            //lift running
 
             // run until the end of the match (driver presses STOP)
             while (opModeIsActive()) {
