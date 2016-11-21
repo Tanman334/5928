@@ -72,6 +72,9 @@
             private DcMotor frontLift = null;
             private DcMotor backLift = null;
 
+            private DcMotor frontClaw = null;
+            private DcMotor backClaw = null;
+
             private void go(int direction) {
                 if (direction == 1) {
                     // forward
@@ -180,6 +183,10 @@
                 frontLift = hardwareMap.dcMotor.get("frontLift");
                 backLift = hardwareMap.dcMotor.get("backLift");
 
+                frontClaw = hardwareMap.dcMotor.get("frontClaw");
+                backClaw = hardwareMap.dcMotor.get("backClaw");
+
+
                 // eg: Set the drive motor directions:
                 // Reverse the motor that runs backwards when connected directly to the battery
                 // leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -223,57 +230,78 @@
                 double rightX = gamepad1.right_stick_x;
                 double rightY = -gamepad1.right_stick_y;
 
+                double throttle = gamepad1.right_trigger;
+
                 if(rightX >= .5){
                     go(9);
-                    speed(rightY,rightY,rightY,rightY);
+                    speed(throttle,throttle,throttle,throttle);
+
+                    telemetry.addData("Direction", "Clock-wise");
                 }
 
                 else if(rightX <= -0.5){
                     go(10);
-                    speed(rightY,rightY,rightY,rightY);
+                    speed(throttle,throttle,throttle,throttle);
+
+                    telemetry.addData("Direction", "Counter Clock-wise");
                 }
 
                 else if(leftX <= -.5 && (leftY < .5 && leftY > -.5)){
                     go(7);
-                    speed(rightY,rightY,rightY,rightY);
+                    speed(throttle,throttle,throttle,throttle);
+
+                    telemetry.addData("Direction", "Left");
                 }
 
                 else if(leftX >= .5 && (leftY < .5 && leftY > -.5)){
                     go(3);
-                    speed(rightY,rightY,rightY,rightY);
+                    speed(throttle,throttle,throttle,throttle);
+
+                    telemetry.addData("Direction","Right");
                 }
 
                 else if(leftY >= .5){
                     if(leftX > .5) {
                         go(2);
-                        speed(rightY,0,0,rightY);
+                        speed(throttle,0,0,throttle);
+
+                        telemetry.addData("Direction", "Forward-Right");
                     }
 
                     else if(leftX < -.5){
                         go(8);
-                        speed(0,rightY,rightY,0);
+                        speed(0,throttle,throttle,0);
+
+                        telemetry.addData("Direction", "Forward-Left");
                     }
 
                     else if(leftX >= -.5 && leftX <= .5){
                         go(1);
-                        speed(rightY,rightY,rightY,rightY);
+                        speed(throttle,throttle,throttle,throttle);
+
+                        telemetry.addData("Direction", "Forward");
                     }
                 }
-
                 else if(leftY <= -.5){
                     if(leftX > .5){
                         go(4);
-                        speed(0,rightY,0,rightY);
+                        speed(0,throttle,0,throttle);
+
+                        telemetry.addData("Direction", "Back-Right");
                     }
 
                     else if(leftX < -.5){
                         go(6);
-                        speed(rightY,0,0,rightY);
+                        speed(throttle,0,0,throttle);
+
+                        telemetry.addData("Direction", "Back-Left");
                     }
 
                     else if(leftX >= -.5 && leftX <= .5){
                         go(5);
-                        speed(rightY,rightY,rightY,rightY);
+                        speed(throttle,throttle,throttle,throttle);
+
+                        telemetry.addData("Direction", "Back");
                     }
                 }
                 else{
@@ -286,17 +314,49 @@
 
                     frontLift.setPower(1);
                     backLift.setPower(1);
-                }
-                else if(gamepad1.dpad_down){
-                    frontLift.setDirection(DcMotor.Direction.REVERSE);
-                    backLift.setDirection(DcMotor.Direction.FORWARD);
 
-                    frontLift.setPower(1);
-                    backLift.setPower(1);
+                    telemetry.addData("Elevator", "Active");
                 }
                 else{
                     frontLift.setPower(0);
                     backLift.setPower(0);
+                }
+
+                if(rightY >= .5){
+                    frontClaw.setDirection(DcMotor.Direction.FORWARD);
+                    backClaw.setDirection(DcMotor.Direction.REVERSE);
+
+                    frontClaw.setPower(rightY);
+                    backClaw.setPower(rightY);
+
+                    telemetry.addData("Claw", "Rising");
+                }
+                else if(rightY <= -.5){
+                    frontClaw.setDirection(DcMotor.Direction.REVERSE);
+                    backClaw.setDirection(DcMotor.Direction.FORWARD);
+
+                    frontClaw.setPower(rightY);
+                    backClaw.setPower(rightY);
+
+                    telemetry.addData("Claw", "Lowering");
+                }
+                else{
+                    frontClaw.setPower(0);
+                    backClaw.setPower(0);
+                }
+
+                if(gamepad1.dpad_right){
+                    frontClaw.setDirection(DcMotor.Direction.FORWARD);
+
+                    frontClaw.setPower(1);
+                }
+                else if(gamepad1.dpad_down){
+                    frontClaw.setDirection(DcMotor.Direction.REVERSE);
+
+                    frontClaw.setPower(1);
+                }
+                else{
+                    frontClaw.setPower(0);
                 }
 
             }
