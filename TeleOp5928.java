@@ -285,7 +285,7 @@
                 else if(leftY <= -.5){
                     if(leftX > .5){
                         go(4);
-                        speed(0,throttle,0,throttle);
+                        speed(0,throttle,throttle,0);
 
                         telemetry.addData("Direction", "Back-Right");
                     }
