@@ -263,7 +263,7 @@
                 else if(leftY <= -.5){
                     if(leftX > .5){
                         go(4);
-                        speed(0,rightY,0,rightY);
+                        speed(0,rightY,rightY,0);
                     }
 
                     else if(leftX < -.5){
