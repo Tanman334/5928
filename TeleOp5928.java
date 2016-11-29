@@ -39,6 +39,8 @@
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.util.ElapsedTime;
+        import org.firstinspires.ftc.teamcode.Bot;
+        import java.lang.Math;
 
         /**
          * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -61,105 +63,7 @@
             /* Declare OpMode members. */
             private ElapsedTime runtime = new ElapsedTime();
 
-            // private DcMotor leftMotor = null;
-            // private DcMotor rightMotor = null;
-
-            private DcMotor frontLeft;
-            private DcMotor frontRight;
-            private DcMotor backLeft;
-            private DcMotor backRight;
-
-            private DcMotor frontLift = null;
-            private DcMotor backLift = null;
-
-            private DcMotor frontClaw = null;
-            private DcMotor backClaw = null;
-
-            private void go(int direction) {
-                if (direction == 1) {
-                    // forward
-                    frontLeft.setDirection(DcMotor.Direction.REVERSE);
-                    backLeft.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontRight.setDirection(DcMotor.Direction.FORWARD);
-                    backRight.setDirection(DcMotor.Direction.FORWARD);
-                }
-                else if(direction == 2){
-                    // forward and right
-                    frontLeft.setDirection(DcMotor.Direction.REVERSE);
-
-                    backRight.setDirection(DcMotor.Direction.FORWARD);
-                }
-                else if(direction == 3){
-                    // right
-                    frontLeft.setDirection(DcMotor.Direction.REVERSE);
-                    backLeft.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontRight.setDirection(DcMotor.Direction.REVERSE);
-                    backRight.setDirection(DcMotor.Direction.FORWARD);
-                }
-                else if(direction == 4){
-                    // back and right
-                    backLeft.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontRight.setDirection(DcMotor.Direction.REVERSE);
-                }
-                else if(direction == 5){
-                    // back
-                    frontLeft.setDirection(DcMotor.Direction.FORWARD);
-                    backLeft.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontRight.setDirection(DcMotor.Direction.REVERSE);
-                    backRight.setDirection(DcMotor.Direction.REVERSE);
-                }
-                else if(direction == 6){
-                    // back and left
-                    frontLeft.setDirection(DcMotor.Direction.FORWARD);
-
-                    backRight.setDirection(DcMotor.Direction.REVERSE);
-                }
-                else if(direction == 7){
-                    // left
-                    frontLeft.setDirection(DcMotor.Direction.FORWARD);
-                    backLeft.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontRight.setDirection(DcMotor.Direction.FORWARD);
-                    backRight.setDirection(DcMotor.Direction.REVERSE);
-                }
-                else if(direction == 8){
-                    // forward and left
-                    backLeft.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontRight.setDirection(DcMotor.Direction.FORWARD);
-                }
-                else if(direction == 9){
-                    frontLeft.setDirection(DcMotor.Direction.REVERSE);
-                    backLeft.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontRight.setDirection(DcMotor.Direction.REVERSE);
-                    backRight.setDirection(DcMotor.Direction.REVERSE);
-                }
-                else if(direction == 10){
-                    frontLeft.setDirection(DcMotor.Direction.FORWARD);
-                    backLeft.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontRight.setDirection(DcMotor.Direction.FORWARD);
-                    backRight.setDirection(DcMotor.Direction.FORWARD);
-                }
-                else{
-                    // In case Tanner forgets how to count
-                    telemetry.addData("Error", "Invalid Direction");
-                    telemetry.update();
-                }
-            }
-
-            private void speed(double fLSpeed, double bLSpeed, double fRSpeed,double bRSpeed){
-                frontLeft.setPower(fLSpeed);
-                backLeft.setPower(bLSpeed);
-
-                frontRight.setPower(fRSpeed);
-                backRight.setPower(bRSpeed);
-            }
+            private Bot turingBot = new Bot();
 
             /*
              * Code to run ONCE when the driver hits INIT
@@ -175,16 +79,16 @@
                 // leftMotor  = hardwareMap.dcMotor.get("left_drive");
                 // rightMotor = hardwareMap.dcMotor.get("right_drive");
 
-                frontLeft  = hardwareMap.dcMotor.get("frontLeft");
-                frontRight  = hardwareMap.dcMotor.get("frontRight");
-                backLeft  = hardwareMap.dcMotor.get("backLeft");
-                backRight  = hardwareMap.dcMotor.get("backRight");
+                turingBot.frontLeft  = hardwareMap.dcMotor.get("frontLeft");
+                turingBot.frontRight  = hardwareMap.dcMotor.get("frontRight");
+                turingBot.backLeft  = hardwareMap.dcMotor.get("backLeft");
+                turingBot.backRight  = hardwareMap.dcMotor.get("backRight");
 
-                frontLift = hardwareMap.dcMotor.get("frontLift");
-                backLift = hardwareMap.dcMotor.get("backLift");
+                turingBot.frontLift = hardwareMap.dcMotor.get("frontLift");
+                turingBot.backLift = hardwareMap.dcMotor.get("backLift");
 
-                frontClaw = hardwareMap.dcMotor.get("frontClaw");
-                backClaw = hardwareMap.dcMotor.get("backClaw");
+                turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
+                turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
 
 
                 // eg: Set the drive motor directions:
@@ -233,130 +137,92 @@
                 double throttle = gamepad1.right_trigger;
 
                 if(rightX >= .5){
-                    go(9);
-                    speed(throttle,throttle,throttle,throttle);
+                    turingBot.cWise(throttle);
 
                     telemetry.addData("Direction", "Clock-wise");
                 }
 
                 else if(rightX <= -0.5){
-                    go(10);
-                    speed(throttle,throttle,throttle,throttle);
+                    turingBot.cCWise(throttle);
 
                     telemetry.addData("Direction", "Counter Clock-wise");
                 }
 
                 else if(leftX <= -.5 && (leftY < .5 && leftY > -.5)){
-                    go(7);
-                    speed(throttle,throttle,throttle,throttle);
+                    turingBot.left(throttle);
 
                     telemetry.addData("Direction", "Left");
                 }
 
                 else if(leftX >= .5 && (leftY < .5 && leftY > -.5)){
-                    go(3);
-                    speed(throttle,throttle,throttle,throttle);
+                    turingBot.right(throttle);
 
                     telemetry.addData("Direction","Right");
                 }
 
                 else if(leftY >= .5){
                     if(leftX > .5) {
-                        go(2);
-                        speed(throttle,0,0,throttle);
+                        turingBot.forRight(throttle);
 
                         telemetry.addData("Direction", "Forward-Right");
                     }
 
                     else if(leftX < -.5){
-                        go(8);
-                        speed(0,throttle,throttle,0);
+                        turingBot.forLeft(throttle);
 
                         telemetry.addData("Direction", "Forward-Left");
                     }
 
                     else if(leftX >= -.5 && leftX <= .5){
-                        go(1);
-                        speed(throttle,throttle,throttle,throttle);
+                        turingBot.forward(throttle);
 
                         telemetry.addData("Direction", "Forward");
                     }
                 }
                 else if(leftY <= -.5){
                     if(leftX > .5){
-                        go(4);
-                        speed(0,throttle,0,throttle);
+                        turingBot.backwRight(throttle);
 
                         telemetry.addData("Direction", "Back-Right");
                     }
 
                     else if(leftX < -.5){
-                        go(6);
-                        speed(throttle,0,0,throttle);
+                        turingBot.backwLeft(throttle);
 
                         telemetry.addData("Direction", "Back-Left");
                     }
 
                     else if(leftX >= -.5 && leftX <= .5){
-                        go(5);
-                        speed(throttle,throttle,throttle,throttle);
+                        turingBot.back(throttle);
 
                         telemetry.addData("Direction", "Back");
                     }
                 }
                 else{
-                    speed(0,0,0,0);
+                    turingBot.forward(0);
                 }
 
                 if(gamepad1.dpad_up){
-                    frontLift.setDirection(DcMotor.Direction.FORWARD);
-                    backLift.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontLift.setPower(1);
-                    backLift.setPower(1);
+                    turingBot.elevate(1);
 
                     telemetry.addData("Elevator", "Active");
                 }
                 else{
-                    frontLift.setPower(0);
-                    backLift.setPower(0);
+                    turingBot.elevate(0);
                 }
 
                 if(rightY >= .5){
-                    frontClaw.setDirection(DcMotor.Direction.FORWARD);
-                    backClaw.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontClaw.setPower(rightY);
-                    backClaw.setPower(rightY);
+                    turingBot.clawsUp(rightY);
 
                     telemetry.addData("Claw", "Rising");
                 }
                 else if(rightY <= -.5){
-                    frontClaw.setDirection(DcMotor.Direction.REVERSE);
-                    backClaw.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontClaw.setPower(rightY);
-                    backClaw.setPower(rightY);
+                    turingBot.clawsDown(Math.abs(rightY));
 
                     telemetry.addData("Claw", "Lowering");
                 }
                 else{
-                    frontClaw.setPower(0);
-                    backClaw.setPower(0);
-                }
-
-                if(gamepad1.dpad_right){
-                    frontClaw.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontClaw.setPower(1);
-                }
-                else if(gamepad1.dpad_down){
-                    frontClaw.setDirection(DcMotor.Direction.REVERSE);
-
-                    frontClaw.setPower(1);
-                }
-                else{
-                    frontClaw.setPower(0);
+                    turingBot.clawsUp(0);
                 }
 
             }
@@ -366,7 +232,7 @@
              */
             @Override
             public void stop() {
-                speed(0,0,0,0);
+                turingBot.shutdown();
             }
 
         }
