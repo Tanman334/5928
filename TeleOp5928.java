@@ -39,6 +39,7 @@
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.util.ElapsedTime;
+        import java.lang.Math;
 
         /**
          * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -322,42 +323,22 @@
                     backLift.setPower(0);
                 }
 
-                if(rightY >= .5){
+                if(rightY >= .5 || rightY <= -.5){
                     frontClaw.setDirection(DcMotor.Direction.FORWARD);
                     backClaw.setDirection(DcMotor.Direction.REVERSE);
 
-                    frontClaw.setPower(rightY);
-                    backClaw.setPower(rightY);
+                    frontClaw.setPower(rightY * .25);
+                    backClaw.setPower(rightY * .25);
 
                     telemetry.addData("Claw", "Rising");
-                }
-                else if(rightY <= -.5){
-                    frontClaw.setDirection(DcMotor.Direction.REVERSE);
-                    backClaw.setDirection(DcMotor.Direction.FORWARD);
-
-                    frontClaw.setPower(rightY);
-                    backClaw.setPower(rightY);
-
-                    telemetry.addData("Claw", "Lowering");
                 }
                 else{
                     frontClaw.setPower(0);
                     backClaw.setPower(0);
                 }
 
-                if(gamepad1.dpad_right){
-                    frontClaw.setDirection(DcMotor.Direction.FORWARD);
 
-                    frontClaw.setPower(1);
-                }
-                else if(gamepad1.dpad_down){
-                    frontClaw.setDirection(DcMotor.Direction.REVERSE);
 
-                    frontClaw.setPower(1);
-                }
-                else{
-                    frontClaw.setPower(0);
-                }
 
             }
 
