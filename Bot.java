@@ -162,8 +162,8 @@
                         frontClaw.setDirection(DcMotor.Direction.FORWARD);
                         backClaw.setDirection(DcMotor.Direction.REVERSE);
 
-                        frontClaw.setPower(-speed);
-                        backClaw.setPower(-speed);
+                        frontClaw.setPower(speed);
+                        backClaw.setPower(speed);
                 }
                 public void elevate(double speed){
                         frontLift.setDirection(DcMotor.Direction.FORWARD);
