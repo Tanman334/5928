@@ -70,11 +70,11 @@
             private DcMotor backLeft;
             private DcMotor backRight;
 
-            private DcMotor frontLift = null;
-            private DcMotor backLift = null;
+            private DcMotor frontLift ;
+            private DcMotor backLift ;
 
-            private DcMotor frontClaw = null;
-            private DcMotor backClaw = null;
+            private DcMotor frontClaw ;
+            private DcMotor backClaw ;
 
             private void go(int direction) {
                 if (direction == 1) {
@@ -323,21 +323,28 @@
                     backLift.setPower(0);
                 }
 
-                if(rightY >= .5 || rightY <= -.5){
+                if(rightY >= .5){
                     frontClaw.setDirection(DcMotor.Direction.FORWARD);
                     backClaw.setDirection(DcMotor.Direction.REVERSE);
 
-                    frontClaw.setPower(rightY * .25);
-                    backClaw.setPower(rightY * .25);
+                    frontClaw.setPower(rightY * .60);
+                    backClaw.setPower(rightY * .60);
 
                     telemetry.addData("Claw", "Rising");
+                }
+                else if(rightY <= -.5){
+                    frontClaw.setDirection(DcMotor.Direction.FORWARD);
+                    backClaw.setDirection(DcMotor.Direction.REVERSE);
+
+                    frontClaw.setPower(rightY * .1);
+                    backClaw.setPower(rightY * .1);
+
+                    telemetry.addData("Claw", "Lowering");
                 }
                 else{
                     frontClaw.setPower(0);
                     backClaw.setPower(0);
                 }
-
-
 
 
             }
