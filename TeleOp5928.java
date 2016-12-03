@@ -40,7 +40,6 @@
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.util.ElapsedTime;
         import org.firstinspires.ftc.teamcode.Bot;
-        import java.lang.Math;
 
         /**
          * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -64,6 +63,9 @@
             private ElapsedTime runtime = new ElapsedTime();
 
             private Bot turingBot = new Bot();
+
+            boolean blue = false;
+            boolean red = false;
 
             /*
              * Code to run ONCE when the driver hits INIT
@@ -106,6 +108,13 @@
             }
             @Override
             public void init_loop() {
+                if(gamepad1.x)
+                    telemetry.addData("You are team", "Blue");
+                else if(gamepad1.b)
+                    telemetry.addData("You are team", "Red");
+
+                blue = gamepad1.x;
+                red = gamepad1.b;
             }
             /*
              * Code to run ONCE when the driver hits PLAY
@@ -207,17 +216,22 @@
 
                     telemetry.addData("Elevator", "Active");
                 }
+                else if(gamepad1.dpad_down){
+                    turingBot.descend(-1);
+
+                    telemetry.addData("Elevator", "Descending");
+                }
                 else{
                     turingBot.elevate(0);
                 }
 
                 if(rightY >= .5){
-                    turingBot.clawsUp(rightY);
+                    turingBot.clawsUp(rightY * .5);
 
                     telemetry.addData("Claw", "Rising");
                 }
                 else if(rightY <= -.5){
-                    turingBot.clawsDown(Math.abs(rightY));
+                    turingBot.clawsDown(rightY * .1);
 
                     telemetry.addData("Claw", "Lowering");
                 }

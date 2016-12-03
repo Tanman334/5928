@@ -169,8 +169,15 @@
                         frontLift.setDirection(DcMotor.Direction.FORWARD);
                         backLift.setDirection(DcMotor.Direction.REVERSE);
 
-                        frontLift.setPower(1);
-                        backLift.setPower(1);
+                        frontLift.setPower(speed);
+                        backLift.setPower(speed);
+                }
+                public void descend(double speed){
+                    frontLift.setDirection(DcMotor.Direction.FORWARD);
+                    backLift.setDirection(DcMotor.Direction.REVERSE);
+
+                    frontLift.setPower(speed);
+                    backLift.setPower(speed);
                 }
                 public void shutdown(){
                         frontLeft.setPower(0);
