@@ -39,6 +39,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Bot;
 
@@ -93,6 +95,10 @@ public class Autonomous5928Blue extends OpMode
         turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
         turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
 
+        turingBot.cSensor = hardwareMap.colorSensor.get("cSensor");
+
+        I2cAddr colorAddr = turingBot.cSensor.getI2cAddress();
+
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -135,7 +141,11 @@ public class Autonomous5928Blue extends OpMode
         double time = runtime.milliseconds();
         double indtime = prcTime.milliseconds();
 
-        boolean blueFound = false;
+        int red = turingBot.cSensor.red();
+        int green = turingBot.cSensor.green();
+        int blue = turingBot.cSensor.blue();
+
+        boolean blueFound = blue > green && blue > red;
         //if blue > green or blue then color = blue; or congfigure to the room light with magic number
 
         if(time < 2000){

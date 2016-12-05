@@ -6,6 +6,7 @@
             import com.qualcomm.robotcore.hardware.DcMotor;
             import com.qualcomm.robotcore.hardware.DcMotorSimple;
             import com.qualcomm.robotcore.hardware.Gamepad;
+            import com.qualcomm.robotcore.hardware.ColorSensor;
             import com.qualcomm.robotcore.util.ElapsedTime;
 
             public class Bot {
@@ -20,6 +21,7 @@
                 public DcMotor frontClaw;
                 public DcMotor backClaw;
 
+                public ColorSensor cSensor;
 
                 public void forward(double speed){
                         // forward

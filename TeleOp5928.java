@@ -38,6 +38,7 @@
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.Gamepad;
+        import com.qualcomm.robotcore.hardware.ColorSensor;
         import com.qualcomm.robotcore.util.ElapsedTime;
         import org.firstinspires.ftc.teamcode.Bot;
 
@@ -64,8 +65,8 @@
 
             private Bot turingBot = new Bot();
 
-            boolean blue = false;
-            boolean red = false;
+            boolean isBlue = false;
+            boolean isRed = false;
 
             /*
              * Code to run ONCE when the driver hits INIT
@@ -108,13 +109,14 @@
             }
             @Override
             public void init_loop() {
-                if(gamepad1.x)
+                if(gamepad1.x) {
                     telemetry.addData("You are team", "Blue");
-                else if(gamepad1.b)
+                    isBlue = true;
+                }
+                else if(gamepad1.b) {
                     telemetry.addData("You are team", "Red");
-
-                blue = gamepad1.x;
-                red = gamepad1.b;
+                    isRed = true;
+                }
             }
             /*
              * Code to run ONCE when the driver hits PLAY
@@ -136,6 +138,17 @@
                 // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
                 // leftMotor.setPower(-gamepad1.left_stick_y);
                 // rightMotor.setPower(-gamepad1.right_stick_y);
+
+                int red = turingBot.cSensor.red();
+                int green = turingBot.cSensor.green();
+                int blue = turingBot.cSensor.blue();
+
+                boolean threshold = false;
+                if(isBlue)
+                    threshold = blue > green && blue > red;
+                else if(isRed)
+                    threshold = red > green && red > blue;
+
 
                 double leftX = gamepad1.left_stick_x;
                 double leftY = -gamepad1.left_stick_y;

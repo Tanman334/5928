@@ -32,9 +32,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Bot;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -87,6 +94,7 @@ public class Autonomous5928Red extends OpMode
         turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
         turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
 
+        turingBot.cSensor = hardwareMap.colorSensor.get("cSensor");
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -129,7 +137,11 @@ public class Autonomous5928Red extends OpMode
         double time = runtime.milliseconds();
         double indtime = prcTime.milliseconds();
 
-        boolean redFound = false;
+        int red = turingBot.cSensor.red();
+        int green = turingBot.cSensor.green();
+        int blue = turingBot.cSensor.blue();
+
+        boolean redFound = red > green && red > blue;
         //if red is over red and green then the color is red; or configure to the room light with magic numbers
 
         if(time < 2000){
