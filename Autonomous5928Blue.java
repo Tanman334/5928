@@ -58,7 +58,7 @@ import org.firstinspires.ftc.teamcode.Bot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutonomousBlue", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 
 public class Autonomous5928Blue extends OpMode
 {
@@ -96,8 +96,6 @@ public class Autonomous5928Blue extends OpMode
         turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
 
         turingBot.cSensor = hardwareMap.colorSensor.get("cSensor");
-
-        I2cAddr colorAddr = turingBot.cSensor.getI2cAddress();
 
 
         // eg: Set the drive motor directions:

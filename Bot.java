@@ -6,6 +6,7 @@
             import com.qualcomm.robotcore.hardware.DcMotor;
             import com.qualcomm.robotcore.hardware.DcMotorSimple;
             import com.qualcomm.robotcore.hardware.Gamepad;
+            import com.qualcomm.robotcore.hardware.Servo;
             import com.qualcomm.robotcore.hardware.ColorSensor;
             import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -22,6 +23,11 @@
                 public DcMotor backClaw;
 
                 public ColorSensor cSensor;
+
+                public Servo fBsktServo;
+                public Servo bBsktServo;
+
+                public Servo poker;
 
                 public void forward(double speed){
                         // forward

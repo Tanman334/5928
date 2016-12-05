@@ -39,6 +39,7 @@
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.ColorSensor;
+        import com.qualcomm.robotcore.hardware.Servo;
         import com.qualcomm.robotcore.util.ElapsedTime;
         import org.firstinspires.ftc.teamcode.Bot;
 
@@ -93,6 +94,12 @@
                 turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
                 turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
 
+                //turingBot.cSensor = hardwareMap.colorSensor.get("cSensor");
+
+                turingBot.fBsktServo = hardwareMap.servo.get("fBsktServo");
+                turingBot.fBsktServo = hardwareMap.servo.get("bBsktServo");
+
+                turingBot.poker = hardwareMap.servo.get("poker");
 
                 // eg: Set the drive motor directions:
                 // Reverse the motor that runs backwards when connected directly to the battery
@@ -125,6 +132,10 @@
 
             @Override
             public void start() {
+
+                turingBot.fBsktServo.setDirection(Servo.Direction.FORWARD);
+                turingBot.bBsktServo.setDirection(Servo.Direction.REVERSE);
+                turingBot.poker.setDirection(Servo.Direction.FORWARD);
                 runtime.reset();
             }
 
@@ -133,22 +144,24 @@
              */
             @Override
             public void loop() {
-                telemetry.addData("Status", "Running: " + runtime.toString());
-
-                // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
-                // leftMotor.setPower(-gamepad1.left_stick_y);
-                // rightMotor.setPower(-gamepad1.right_stick_y);
-
-                int red = turingBot.cSensor.red();
+                /*int red = turingBot.cSensor.red();
                 int green = turingBot.cSensor.green();
-                int blue = turingBot.cSensor.blue();
+                int blue = turingBot.cSensor.blue();*/
+
+                telemetry.addData("Status", "Running: " + runtime.toString());
+                telemetry.addData("Front Basket Servo", "Position: " + turingBot.fBsktServo.getPosition());
+                telemetry.addData("Back Basket Servo", "Position: " + turingBot.bBsktServo.getPosition());
+                telemetry.addData("Poker Servo", "Position: " + turingBot.bBsktServo.getPosition());
+                /*telemetry.addData("Red", "" + red);
+                telemetry.addData("Green", "" + green);
+                telemetry.addData("Blue:", "" + blue);
 
                 boolean threshold = false;
                 if(isBlue)
                     threshold = blue > green && blue > red;
                 else if(isRed)
                     threshold = red > green && red > blue;
-
+                */
 
                 double leftX = gamepad1.left_stick_x;
                 double leftY = -gamepad1.left_stick_y;
@@ -251,6 +264,14 @@
                 else{
                     turingBot.clawsUp(0);
                 }
+
+                if(gamepad1.dpad_right)
+                    turingBot.fBsktServo.setPosition(0);
+                else if(gamepad1.dpad_left)
+                    turingBot.bBsktServo.setPosition(0);
+
+                if(gamepad1.left_bumper)
+                    turingBot.poker.setPosition(0);
 
             }
 
