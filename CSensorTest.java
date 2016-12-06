@@ -33,7 +33,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -50,17 +53,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousRed", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-
-public class Autonomous5928Red extends OpMode
+@Autonomous(name="CSensorTest", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+public class CSensorTest extends OpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime prcTime = new ElapsedTime();
 
     // private DcMotor leftMotor = null;
     // private DcMotor rightMotor = null;
-    Bot turingBot = new Bot();
+
+    ColorSensor cSensor = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -69,50 +71,35 @@ public class Autonomous5928Red extends OpMode
     public void init() {
         telemetry.addData("Status", "Initialized");
 
-                /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-                 * to 'get' must correspond to the names assigned during the robot configuration
-                 * step (using the FTC Robot Controller app on the phone).
-                 */
+        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
+         * to 'get' must correspond to the names assigned during the robot configuration
+         * step (using the FTC Robot Controller app on the phone).
+         */
         // leftMotor  = hardwareMap.dcMotor.get("left_drive");
         // rightMotor = hardwareMap.dcMotor.get("right_drive");
 
-        turingBot.frontLeft  = hardwareMap.dcMotor.get("frontLeft");
-        turingBot.frontRight  = hardwareMap.dcMotor.get("frontRight");
-        turingBot.backLeft  = hardwareMap.dcMotor.get("backLeft");
-        turingBot.backRight  = hardwareMap.dcMotor.get("backRight");
-
-        turingBot.frontLift = hardwareMap.dcMotor.get("frontLift");
-        turingBot.backLift = hardwareMap.dcMotor.get("backLift");
-
-        turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
-        turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
-
+        cSensor = hardwareMap.colorSensor.get("cSensor");
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
         // leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //  rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         // telemetry.addData("Status", "Initialized");
-
-
-            /*
-             * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-             */
-
-
     }
+
+    /*
+     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+     */
     @Override
     public void init_loop() {
     }
-            /*
-             * Code to run ONCE when the driver hits PLAY
-             */
 
-
+    /*
+     * Code to run ONCE when the driver hits PLAY
+     */
     @Override
     public void start() {
         runtime.reset();
-        prcTime.reset();
     }
 
     /*
@@ -120,51 +107,29 @@ public class Autonomous5928Red extends OpMode
      */
     @Override
     public void loop() {
-        telemetry.addData("Status", "Running: " + runtime.toString());
+        telemetry.addData("Status", "Tanner Sucks");
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         // leftMotor.setPower(-gamepad1.left_stick_y);
         // rightMotor.setPower(-gamepad1.right_stick_y);
 
-        double time = runtime.milliseconds();
-        double indtime = prcTime.milliseconds();
+        cSensor.enableLed(true);
 
-        boolean redFound = false;
-        //if red is over red and green then the color is red; or configure to the room light with magic numbers
+        int red = cSensor.red();
+        int blue = cSensor.blue();
+        int green = cSensor.green();
 
-        if(time < 2000){
-            turingBot.cCWise(1);
-        }
-        else if(time < 5000){
-            turingBot.left(1);
-        }
-        else if(time < 6000){
-            turingBot.backwLeft(1);
-        }
-        else if(time < 16000){
-            turingBot.back(.2);
-            if(redFound){
-                prcTime.reset();
-                if(indtime < 200) {
-                    turingBot.forward(.1);
-                }
-                else if(indtime < 500){
-                    //run servos
-                }
-            }
-        }
-        else{
-            turingBot.shutdown();
-        }
-
-
-
+        telemetry.addData("Red", red);
+        telemetry.addData("Green", green);
+        telemetry.addData("Blue", blue);
     }
 
     /*
      * Code to run ONCE after the driver hits STOP
      */
     @Override
-    public void stop() {turingBot.shutdown();}
+    public void stop() {
+
+    }
 
 }

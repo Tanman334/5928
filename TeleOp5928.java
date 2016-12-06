@@ -38,7 +38,6 @@
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.Gamepad;
-        import com.qualcomm.robotcore.hardware.ColorSensor;
         import com.qualcomm.robotcore.hardware.Servo;
         import com.qualcomm.robotcore.util.ElapsedTime;
         import org.firstinspires.ftc.teamcode.Bot;
@@ -66,9 +65,12 @@
 
             private Bot turingBot = new Bot();
 
-            boolean isBlue = false;
-            boolean isRed = false;
+            boolean blue = false;
+            boolean red = false;
 
+            public Servo poker;
+            public Servo fBsktServo;
+            public Servo bBsktServo;
             /*
              * Code to run ONCE when the driver hits INIT
              */
@@ -94,12 +96,10 @@
                 turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
                 turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
 
-                //turingBot.cSensor = hardwareMap.colorSensor.get("cSensor");
+                poker = hardwareMap.servo.get("poker");
+                fBsktServo = hardwareMap.servo.get("fBsktServo");
+                bBsktServo = hardwareMap.servo.get("bBsktServo");
 
-                turingBot.fBsktServo = hardwareMap.servo.get("fBsktServo");
-                turingBot.fBsktServo = hardwareMap.servo.get("bBsktServo");
-
-                turingBot.poker = hardwareMap.servo.get("poker");
 
                 // eg: Set the drive motor directions:
                 // Reverse the motor that runs backwards when connected directly to the battery
@@ -116,14 +116,13 @@
             }
             @Override
             public void init_loop() {
-                if(gamepad1.x) {
+                if(gamepad1.x)
                     telemetry.addData("You are team", "Blue");
-                    isBlue = true;
-                }
-                else if(gamepad1.b) {
+                else if(gamepad1.b)
                     telemetry.addData("You are team", "Red");
-                    isRed = true;
-                }
+
+                blue = gamepad1.x;
+                red = gamepad1.b;
             }
             /*
              * Code to run ONCE when the driver hits PLAY
@@ -132,10 +131,6 @@
 
             @Override
             public void start() {
-
-                turingBot.fBsktServo.setDirection(Servo.Direction.FORWARD);
-                turingBot.bBsktServo.setDirection(Servo.Direction.REVERSE);
-                turingBot.poker.setDirection(Servo.Direction.FORWARD);
                 runtime.reset();
             }
 
@@ -144,24 +139,11 @@
              */
             @Override
             public void loop() {
-                /*int red = turingBot.cSensor.red();
-                int green = turingBot.cSensor.green();
-                int blue = turingBot.cSensor.blue();*/
-
                 telemetry.addData("Status", "Running: " + runtime.toString());
-                telemetry.addData("Front Basket Servo", "Position: " + turingBot.fBsktServo.getPosition());
-                telemetry.addData("Back Basket Servo", "Position: " + turingBot.bBsktServo.getPosition());
-                telemetry.addData("Poker Servo", "Position: " + turingBot.bBsktServo.getPosition());
-                /*telemetry.addData("Red", "" + red);
-                telemetry.addData("Green", "" + green);
-                telemetry.addData("Blue:", "" + blue);
 
-                boolean threshold = false;
-                if(isBlue)
-                    threshold = blue > green && blue > red;
-                else if(isRed)
-                    threshold = red > green && red > blue;
-                */
+                // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
+                // leftMotor.setPower(-gamepad1.left_stick_y);
+                // rightMotor.setPower(-gamepad1.right_stick_y);
 
                 double leftX = gamepad1.left_stick_x;
                 double leftY = -gamepad1.left_stick_y;
@@ -265,13 +247,23 @@
                     turingBot.clawsUp(0);
                 }
 
-                if(gamepad1.dpad_right)
-                    turingBot.fBsktServo.setPosition(0);
-                else if(gamepad1.dpad_left)
-                    turingBot.bBsktServo.setPosition(0);
+                if(gamepad1.left_bumper) {
+                    poker.setPosition(1); // 1= inwards; 0 = outwards
+                }
+                if(gamepad1.left_trigger > .49){
+                    poker.setPosition(0);
+                }
 
-                if(gamepad1.left_bumper)
-                    turingBot.poker.setPosition(0);
+
+                if(gamepad1.dpad_right){
+                    bBsktServo.setPosition(0);
+                    fBsktServo.setPosition(1);
+                }
+
+                if(gamepad1.dpad_left){
+                    bBsktServo.setPosition(1); //1 = in; 0 = out
+                    fBsktServo.setPosition(0); //0 = in;i = out
+                }
 
             }
 

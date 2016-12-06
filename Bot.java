@@ -22,12 +22,6 @@
                 public DcMotor frontClaw;
                 public DcMotor backClaw;
 
-                public ColorSensor cSensor;
-
-                public Servo fBsktServo;
-                public Servo bBsktServo;
-
-                public Servo poker;
 
                 public void forward(double speed){
                         // forward

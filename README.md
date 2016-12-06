@@ -6,9 +6,6 @@
 * Right Trigger: Drivetrain Throttle
 * Right Stick Y: Claws Up/Down
 * DPad Up: Elevator Up
-* DPad Down: Elevator Down
-* X: Select Blue
-* B: Select Red
 
 ## Robot Activation:
 1. Plug in the power cord from the battery to the core power distribution module
@@ -25,5 +22,3 @@
 3. Open the driver station app
 4. Hit Start and A on the controller at the same time
 5. Select the TeleOP op mode
-6. Initiate
-7. Use X and B to select team color.
