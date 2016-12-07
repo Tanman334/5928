@@ -153,14 +153,7 @@
                         frontRight.setPower(speed);
                         backRight.setPower(speed);
                 }
-                public void clawsUp(double speed){
-                        frontClaw.setDirection(DcMotor.Direction.FORWARD);
-                        backClaw.setDirection(DcMotor.Direction.REVERSE);
-
-                        frontClaw.setPower(speed);
-                        backClaw.setPower(speed);
-                }
-                public void clawsDown(double speed){
+                public void moveClaws(double speed){
                         frontClaw.setDirection(DcMotor.Direction.FORWARD);
                         backClaw.setDirection(DcMotor.Direction.REVERSE);
 

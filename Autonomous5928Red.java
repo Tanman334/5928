@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -62,6 +63,8 @@ public class Autonomous5928Red extends OpMode
     // private DcMotor rightMotor = null;
     Bot turingBot = new Bot();
 
+    public Servo poker;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -81,11 +84,7 @@ public class Autonomous5928Red extends OpMode
         turingBot.backLeft  = hardwareMap.dcMotor.get("backLeft");
         turingBot.backRight  = hardwareMap.dcMotor.get("backRight");
 
-        turingBot.frontLift = hardwareMap.dcMotor.get("frontLift");
-        turingBot.backLift = hardwareMap.dcMotor.get("backLift");
-
-        turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
-        turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
+        poker = hardwareMap.servo.get("poker");
 
 
         // eg: Set the drive motor directions:
@@ -142,15 +141,12 @@ public class Autonomous5928Red extends OpMode
             turingBot.backwLeft(1);
         }
         else if(time < 16000){
-            turingBot.back(.2);
             if(redFound){
-                prcTime.reset();
-                if(indtime < 200) {
-                    turingBot.forward(.1);
-                }
-                else if(indtime < 500){
-                    //run servos
-                }
+                turingBot.forward(0);
+                poker.setPosition(.5);
+            }
+            else{
+                turingBot.back(.1);
             }
         }
         else{

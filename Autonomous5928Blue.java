@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Bot;
 
@@ -68,6 +69,8 @@ public class Autonomous5928Blue extends OpMode
     // private DcMotor rightMotor = null;
     Bot turingBot = new Bot();
 
+    public Servo poker;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -87,12 +90,7 @@ public class Autonomous5928Blue extends OpMode
         turingBot.backLeft  = hardwareMap.dcMotor.get("backLeft");
         turingBot.backRight  = hardwareMap.dcMotor.get("backRight");
 
-        turingBot.frontLift = hardwareMap.dcMotor.get("frontLift");
-        turingBot.backLift = hardwareMap.dcMotor.get("backLift");
-
-        turingBot.frontClaw = hardwareMap.dcMotor.get("frontClaw");
-        turingBot.backClaw = hardwareMap.dcMotor.get("backClaw");
-
+        poker = hardwareMap.servo.get("poker");
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -143,17 +141,13 @@ public class Autonomous5928Blue extends OpMode
         }
         else if(time < 3000){
             turingBot.forRight(1);
-        }
+        } //else if range 7 or less go forward slow and check for blue, if blue activate poker
+        //else if range greater than 7 move towards the wall
         else if(time < 13000){
-            turingBot.forward(.2);
+            turingBot.forward(.1);
             if(blueFound){
-                prcTime.reset();
-                if(indtime < 200) {
-                    turingBot.back(.1);
-                }
-                else if(indtime < 500){
-                    //run servos
-                }
+                turingBot.forward(0);
+                poker.setPosition(.5);
             }
         }
         else{

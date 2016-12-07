@@ -65,8 +65,8 @@
 
             private Bot turingBot = new Bot();
 
-            boolean blue = false;
-            boolean red = false;
+            boolean teamBlue = false;
+            boolean teamRed = false;
 
             public Servo poker;
             public Servo fBsktServo;
@@ -121,8 +121,8 @@
                 else if(gamepad1.b)
                     telemetry.addData("You are team", "Red");
 
-                blue = gamepad1.x;
-                red = gamepad1.b;
+                teamBlue = gamepad1.x;
+                teamRed = gamepad1.b;
             }
             /*
              * Code to run ONCE when the driver hits PLAY
@@ -149,7 +149,7 @@
                 double leftY = -gamepad1.left_stick_y;
 
                 double rightX = gamepad1.right_stick_x;
-                double rightY = -gamepad1.right_stick_y;
+                double rightY = gamepad1.right_stick_y;
 
                 double throttle = gamepad1.right_trigger;
 
@@ -224,45 +224,43 @@
 
                     telemetry.addData("Elevator", "Active");
                 }
-                else if(gamepad1.dpad_down){
-                    turingBot.descend(-1);
-
-                    telemetry.addData("Elevator", "Descending");
-                }
                 else{
                     turingBot.elevate(0);
                 }
 
                 if(rightY >= .5){
-                    turingBot.clawsUp(rightY * .5);
-
-                    telemetry.addData("Claw", "Rising");
-                }
-                else if(rightY <= -.5){
-                    turingBot.clawsDown(rightY * .1);
+                    turingBot.moveClaws(rightY * .1);
 
                     telemetry.addData("Claw", "Lowering");
                 }
+                else if(rightY <= -.5){
+                    turingBot.moveClaws(rightY * .5);
+
+                    telemetry.addData("Claw", "Raising");
+                }
                 else{
-                    turingBot.clawsUp(0);
+                    turingBot.moveClaws(0);
                 }
 
                 if(gamepad1.left_bumper) {
-                    poker.setPosition(1); // 1= inwards; 0 = outwards
+                    poker.setPosition(.5);
                 }
-                if(gamepad1.left_trigger > .49){
-                    poker.setPosition(0);
+                else if(gamepad1.left_trigger > .49){
+                    poker.setPosition(.75); // 1= inwards; 0 = outwards
                 }
 
 
                 if(gamepad1.dpad_right){
+                    bBsktServo.setPosition(1);
+                    fBsktServo.setPosition(0);
+                }
+                else if(gamepad1.dpad_down){
                     bBsktServo.setPosition(0);
                     fBsktServo.setPosition(1);
                 }
-
-                if(gamepad1.dpad_left){
-                    bBsktServo.setPosition(1); //1 = in; 0 = out
-                    fBsktServo.setPosition(0); //0 = in;i = out
+                else if(gamepad1.dpad_left){
+                    bBsktServo.setPosition(.25); //1 = in; 0 = out
+                    fBsktServo.setPosition(.75); //0 = in;1 = out
                 }
 
             }
