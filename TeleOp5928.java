@@ -32,14 +32,22 @@
         */
         package org.firstinspires.ftc.teamcode;
 
+        import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
         import com.qualcomm.robotcore.eventloop.opmode.Disabled;
         import com.qualcomm.robotcore.eventloop.opmode.OpMode;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+        import com.qualcomm.robotcore.hardware.ColorSensor;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.DistanceSensor;
         import com.qualcomm.robotcore.hardware.Gamepad;
+        import com.qualcomm.robotcore.hardware.HardwareDevice;
+        import com.qualcomm.robotcore.hardware.I2cController;
+        import com.qualcomm.robotcore.hardware.I2cDevice;
         import com.qualcomm.robotcore.hardware.Servo;
         import com.qualcomm.robotcore.util.ElapsedTime;
+
+        import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRRangeSensor;
         import org.firstinspires.ftc.teamcode.Bot;
 
         /**
@@ -71,6 +79,8 @@
             public Servo poker;
             public Servo fBsktServo;
             public Servo bBsktServo;
+
+            public ColorSensor cSensor;
             /*
              * Code to run ONCE when the driver hits INIT
              */
@@ -100,6 +110,7 @@
                 fBsktServo = hardwareMap.servo.get("fBsktServo");
                 bBsktServo = hardwareMap.servo.get("bBsktServo");
 
+                cSensor = hardwareMap.colorSensor.get("cSensor");
 
                 // eg: Set the drive motor directions:
                 // Reverse the motor that runs backwards when connected directly to the battery
@@ -243,10 +254,11 @@
                 }
 
                 if(gamepad1.left_bumper) {
+
                     poker.setPosition(.5);
                 }
                 else if(gamepad1.left_trigger > .49){
-                    poker.setPosition(.75); // 1= inwards; 0 = outwards
+                    poker.setPosition(.9); // 1= inwards; .5 = outwards
                 }
 
 
@@ -255,12 +267,12 @@
                     fBsktServo.setPosition(0);
                 }
                 else if(gamepad1.dpad_down){
-                    bBsktServo.setPosition(0);
-                    fBsktServo.setPosition(1);
-                }
-                else if(gamepad1.dpad_left){
                     bBsktServo.setPosition(.25); //1 = in; 0 = out
                     fBsktServo.setPosition(.75); //0 = in;1 = out
+                }
+                else if(gamepad1.dpad_left){
+                    bBsktServo.setPosition(0);
+                    fBsktServo.setPosition(1);
                 }
 
             }
